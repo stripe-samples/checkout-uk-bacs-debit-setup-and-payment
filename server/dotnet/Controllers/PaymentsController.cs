@@ -71,8 +71,6 @@ namespace dotnet.Controllers
             var service = new SessionService();
             Session session = service.Create(options);
 
-            System.Diagnostics.Debug.WriteLine(session);
-
             return new CreateCheckoutSessionResponse
             {
                 SessionId = session.Id,
