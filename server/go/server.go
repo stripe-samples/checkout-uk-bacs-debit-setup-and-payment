@@ -4,12 +4,14 @@ import (
   "bytes"
 	"encoding/json"
 	"io"
+	"ioutil"
 	"log"
 	"net/http"
 	"os"
 
 	"github.com/joho/godotenv"
 	"github.com/stripe/stripe-go/v71"
+	"github.com/stripe/stripe-go/v71/customer"
 	"github.com/stripe/stripe-go/v71/price"
 	"github.com/stripe/stripe-go/v71/checkout/session"
 )
