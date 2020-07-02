@@ -1,8 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Stripe;
 using Stripe.Checkout;
+
+using System;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -44,28 +49,36 @@ namespace dotnet.Controllers
         [HttpPost("create-checkout-session")]
         public ActionResult<CreateCheckoutSessionResponse> CreateCheckoutSession([FromBody] CreateCheckoutSessionRequest req)
         {
+            var customerOptions = new CustomerCreateOptions
+            {
+                Name = "Janey Rosen",
+            };
+            var customerService = new CustomerService();
+            var customer = customerService.Create(customerOptions);
 
             var options = new SessionCreateOptions
             {
-                SuccessUrl = this.options.Value.Domain + "/success.html?session_id={CHECKOUT_SESSION_ID}",
-                CancelUrl = this.options.Value.Domain + "/canceled.html",
                 PaymentMethodTypes = new List<string>
-                  {
-                    "bacs_debit",
-                  },
-                LineItems = new List<SessionLineItemOptions>
-                  {
-                    new SessionLineItemOptions
                     {
-                      Price = this.options.Value.Price,
-                      Quantity = req.Quantity,
+                        "bacs_debit",
                     },
-                  },
+                LineItems = new List<SessionLineItemOptions>
+                    {
+                        new SessionLineItemOptions
+                        {
+                            Price = this.options.Value.Price,
+                            Quantity = 1,
+                        },
+                    },
+                Mode = "payment",
+                Customer = customer.Id,
                 PaymentIntentData = new SessionPaymentIntentDataOptions
                 {
                     SetupFutureUsage = "off_session",
                 },
-                Mode = "payment",
+
+                SuccessUrl = this.options.Value.Domain + "/success.html?session_id={CHECKOUT_SESSION_ID}",
+                CancelUrl = this.options.Value.Domain + "/canceled.html",
             };
 
             var service = new SessionService();
@@ -75,6 +88,48 @@ namespace dotnet.Controllers
             {
                 SessionId = session.Id,
             };
+        }
+
+        [HttpPost("stripe-webhook")]
+        public async Task<IActionResult> Webhook()
+        {
+            var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
+            Event stripeEvent;
+            try
+            {
+                stripeEvent = EventUtility.ConstructEvent(
+                    json,
+                    Request.Headers["Stripe-Signature"],
+                    this.options.Value.WebhookSecret
+                );
+                Console.WriteLine($"Webhook notification with type: {stripeEvent.Type} found for {stripeEvent.Id}");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Something failed {e}");
+                return BadRequest();
+            }
+
+            switch (stripeEvent.Type)
+            {
+                case Events.CheckoutSessionCompleted:
+
+                    Console.WriteLine("Checkout session completed!");
+
+                    break;
+                case Events.CheckoutSessionAsyncPaymentSucceeded:
+
+                    Console.WriteLine("Checkout session async payment succeeded!");
+
+                    break;
+                case Events.CheckoutSessionAsyncPaymentFailed:
+
+                    Console.WriteLine("Checkout session async payment failed!");
+
+                    break;
+            }
+
+            return Ok();
         }
     }
 }
