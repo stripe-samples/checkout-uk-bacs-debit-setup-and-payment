@@ -102,11 +102,15 @@ $app->post('/webhook', function(Request $request, Response $response) {
     $object = $event['data']['object'];
 
     if($type == 'checkout.session.completed') {
-      $logger->info('🔔  Checkout session completed! ');
+      $logger->info('🔔  Checkout session completed');
     }
 
     if($type == 'checkout.session.async_payment_succeeded') {
-      $logger->info('🔔  Asyc payment succeeded! ');
+      $logger->info('🔔  Checkout session async payment succeeded');
+    }
+
+    if($type == 'checkout.session.async_payment_failed') {
+      $logger->info('🔔  Checkout session async payment failed');
     }
 
     return $response->withJson([ 'status' => 'success' ])->withStatus(200);

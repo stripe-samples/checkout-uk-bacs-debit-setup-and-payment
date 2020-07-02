@@ -20,10 +20,11 @@ $type = $event['type'];
 $object = $event['data']['object'];
 
 if($type == 'checkout.session.completed') {
-  error_log('🔔  Checkout Session was completed!');
+  error_log('🔔  Checkout Session was completed');
 } elseif($type == 'checkout.session.async_payment_succeeded') {
-  error_log('🔔  Async payment succeeded!');
-} else {
+  error_log('🔔  Checkout Session async payment succeeded');
+} elseif($type == 'checkout.session.async_payment_failed') {
+  error_log('🔔  Checkout Session async payment failed');
 	error_log('🔔  Other webhook received! ' . $type);
 }
 

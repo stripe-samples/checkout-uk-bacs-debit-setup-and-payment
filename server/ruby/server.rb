@@ -98,8 +98,9 @@ post '/webhook' do
   data = event['data']
   data_object = data['object']
 
-  puts '🔔  Checkout session succeeded!' if event_type == 'checkout.session.completed'
-  puts '🔔  Async payment succeeded!' if event_type == 'checkout.session.async_payment_succeeded'
+  puts '🔔  Checkout session succeeded' if event_type == 'checkout.session.completed'
+  puts '🔔  Checkout session async payment succeeded' if event_type == 'checkout.session.async_payment_succeeded'
+  puts '🔔  Checkout session async payment failed' if event_type == 'checkout.session.async_payment_failed'
 
 
   content_type 'application/json'

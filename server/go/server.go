@@ -4,16 +4,16 @@ import (
   "bytes"
 	"encoding/json"
 	"io"
-	"ioutil"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 
 	"github.com/joho/godotenv"
 	"github.com/stripe/stripe-go/v71"
-	"github.com/stripe/stripe-go/v71/customer"
 	"github.com/stripe/stripe-go/v71/price"
 	"github.com/stripe/stripe-go/v71/checkout/session"
+	"github.com/stripe/stripe-go/v71/webhook"
 )
 
 func main() {
@@ -27,6 +27,7 @@ func main() {
 	http.HandleFunc("/config", handleConfig)
 	http.HandleFunc("/create-checkout-session", handleCreateCheckoutSession)
 	http.HandleFunc("/checkout-session", handleRetrieveCheckoutSession)
+	http.HandleFunc("/webhook", handleWebhook)
 
 	addr := "localhost:4242"
 	log.Printf("Listening on %s ...", addr)
@@ -133,4 +134,39 @@ func writeJSON(w http.ResponseWriter, v interface{}) {
     log.Printf("io.Copy: %v", err)
     return
   }
+}
+
+func handleWebhook(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
+		return
+	}
+	b, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		log.Printf("ioutil.ReadAll: %v", err)
+		return
+	}
+
+	event, err := webhook.ConstructEvent(b, r.Header.Get("Stripe-Signature"), os.Getenv("STRIPE_WEBHOOK_SECRET"))
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		log.Printf("webhook.ConstructEvent: %v", err)
+		return
+	}
+
+	if event.Type == "checkout.session.completed" {
+		log.Printf("Checkout session completed")
+			return
+	}
+
+	if event.Type == "checkout.session.async_payment_succeeded" {
+		log.Printf("Checkout session async payment succeeded", err)
+			return
+	}
+
+	if event.Type == "checkout.session.async_payment_failed" {
+		log.Printf("Checkout session async payment failed", err)
+			return
+	}
 }

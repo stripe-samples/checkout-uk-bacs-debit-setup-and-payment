@@ -104,11 +104,15 @@ app.post('/webhook', async (req, res) => {
   }
 
   if (eventType === 'checkout.session.completed') {
-    console.log(`🔔  Checkout session completed!`);
+    console.log(`🔔  Checkout session completed`);
   }
 
   if (eventType === 'checkout.session.async_payment_succeeded') {
-    console.log(`🔔  Async payment succeeded!`);
+    console.log(`🔔  Checkout session async payment succeeded`);
+  }
+
+  if (eventType === 'checkout.session.async_payment_failed') {
+    console.log(`🔔  Checkout session async payment failed`);
   }
 
   res.sendStatus(200);

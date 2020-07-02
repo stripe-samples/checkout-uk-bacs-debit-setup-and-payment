@@ -103,18 +103,18 @@ def webhook_received():
     else:
         data = request_data['data']
         event_type = request_data['type']
-    data_object = data['object']
-
-    print('event ' + event_type)
+        data_object = data['object']
 
     if event_type == 'checkout.session.completed':
-        print('🔔 Checkout session succeeded!')
+        print('🔔 Checkout session succeeded')
 
-    if event_type == 'checkout.session.completed':
-        print('🔔 Async payment succeeded!')
+    if event_type == 'checkout.session.async_payment_succeeded':
+        print('🔔 Checkout session async payment succeeded')
+
+    if event_type == 'checkout.session.async_payment_failed':
+        print('🔔 Checkout session async payment failed')
 
     return jsonify({'status': 'success'})
-
 
 if __name__ == '__main__':
     app.run(port=4242)

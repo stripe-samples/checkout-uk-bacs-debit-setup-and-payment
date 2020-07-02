@@ -90,7 +90,7 @@ namespace dotnet.Controllers
             };
         }
 
-        [HttpPost("stripe-webhook")]
+        [HttpPost("webhook")]
         public async Task<IActionResult> Webhook()
         {
             var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
@@ -114,17 +114,17 @@ namespace dotnet.Controllers
             {
                 case Events.CheckoutSessionCompleted:
 
-                    Console.WriteLine("Checkout session completed!");
+                    System.Diagnostics.Debug.WriteLine("Checkout session completed");
 
                     break;
                 case Events.CheckoutSessionAsyncPaymentSucceeded:
 
-                    Console.WriteLine("Checkout session async payment succeeded!");
+                    System.Diagnostics.Debug.WriteLine("Checkout session async payment succeeded");
 
                     break;
                 case Events.CheckoutSessionAsyncPaymentFailed:
 
-                    Console.WriteLine("Checkout session async payment failed!");
+                    System.Diagnostics.Debug.WriteLine("Checkout session async payment failed");
 
                     break;
             }
