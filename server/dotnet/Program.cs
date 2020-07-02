@@ -24,6 +24,7 @@ namespace dotnet
                 {
                     webBuilder.UseStartup<Startup>();
                     webBuilder.UseWebRoot(Environment.GetEnvironmentVariable("STATIC_DIR"));
+                    webBuilder.UseUrls(Environment.GetEnvironmentVariable("DOMAIN"));
                 });
         }
     }
