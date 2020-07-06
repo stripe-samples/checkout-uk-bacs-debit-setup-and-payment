@@ -49,12 +49,6 @@ namespace dotnet.Controllers
         [HttpPost("create-checkout-session")]
         public ActionResult<CreateCheckoutSessionResponse> CreateCheckoutSession([FromBody] CreateCheckoutSessionRequest req)
         {
-            var customerOptions = new CustomerCreateOptions
-            {
-                Name = "Janey Rosen",
-            };
-            var customerService = new CustomerService();
-            var customer = customerService.Create(customerOptions);
 
             var options = new SessionCreateOptions
             {
@@ -71,7 +65,6 @@ namespace dotnet.Controllers
                         },
                     },
                 Mode = "payment",
-                Customer = customer.Id,
                 PaymentIntentData = new SessionPaymentIntentDataOptions
                 {
                     SetupFutureUsage = "off_session",
