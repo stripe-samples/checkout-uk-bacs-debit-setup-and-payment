@@ -1,34 +1,18 @@
-# Accept payments with Stripe Checkout
+# Accept payments with Stripe Checkout and Bacs Direct Debit
 
-Building payment form UI from scratch is difficult -- input field validation, error message handing, and localization are just a few things to think about when designing a simple checkout flow.
+Building a payment form UI from scratch is difficult -- input field validation, error message handing, and localization are just a few things to think about when designing a simple checkout flow.
 
 We built [Checkout](https://stripe.com/docs/payments/checkout) to do that work for you so now you can focus on building the best storefront experience for your customers.
 
-Once your customer is ready to pay, use Stripe.js to redirect them to the URL of your Stripe hosted payment page. It's so simple you don't even need a server! 🥳
+Now you can also use Checkout to accept payments using Bacs Direct Debit.
 
 ## Demo
 
-- [HTML + Vanilla JavaScript demo](https://70p1h.sse.codesandbox.io/)
-- [React demo](https://70p1h-3000.sse.codesandbox.io/)
+- [Node](https://70p1h-3000.sse.codesandbox.io/)
 - [Fork on CodeSandbox](https://codesandbox.io/s/github/stripe-samples/checkout-one-time-payments/tree/codesandbox/) (includes both HTML and React client)
+The demo is running in test mode -- use `10-88-00` as a sort code, and `00012345` as the routing number.
 
-The demo is running in test mode -- use `4242424242424242` as a test card number with any CVC + future expiration date.
-
-Use the `4000000000003220` test card number to trigger a 3D Secure challenge flow.
-
-Read more about testing on Stripe at https://stripe.com/docs/testing.
-
-<details open><summary>USD Cards Demo</summary>
-<img src="./demo-gifs/checkout-demo.gif" alt="A gif of the Checkout payment page rendering" align="center">
-</details>
-
-<details><summary>EUR Cards & iDEAL Demo</summary>
-<img src="./demo-gifs/checkout-demo-ideal.gif" alt="A gif of the Checkout payment page rendering" align="center">
-</details>
-
-<details><summary>MYR Cards & FPX Demo</summary>
-<img src="./demo-gifs/checkout-demo-fpx.gif" alt="A gif of the Checkout payment page rendering" align="center">
-</details>
+Read more about testing Bacs Direct Debit on Stripe at https://stripe.com/docs/payments/bacs-debit/accept-a-payment#testing
 
 ## Features
 
@@ -36,32 +20,11 @@ Read more about testing on Stripe at https://stripe.com/docs/testing.
 - 🍎⌚️Built-in support for Apple Pay and Google Pay
 - 🔒Built-in dynamic 3D Secure (ready for SCA)
 - 🧾💵Support for various payment methods. See the [docs](https://stripe.com/docs/payments/checkout/payment-methods) for details.
-- 🍨HTML + Vanilla JavaScript as well as ⚛️ React clients
-
-For more features see the [Checkout documentation](https://stripe.com/docs/payments/checkout).
-
-There are two integrations: [client-and-server](./client-and-server) and [client-only](./client-only).
-
-<!-- prettier-ignore -->
-|     | client-only | client-and-server
-:--- | :---: | :---:
-🔨 **Prebuilt checkout page.** Create a payment page that is customizable with your business' name and logo. | ✅  | ✅ |
-🔢 **Dynamic checkout amounts.** Dynamically define product amounts rather than relying on predefined Prices.  | ❌  | ✅ |
-⌛ **Capture payments later.** Optionally split the capture and authorization steps to place a hold on the card and charge later. | ❌ | ✅ |
-
-### Client-only flowchart
-
-<img src="https://storage.googleapis.com/stripe-samples-flow-charts/checkout-one-time-client-only.png" alt="A flowchart of the Checkout flow" align="center">
-
-### Client-and-server flowchart
-
-<img src="https://storage.googleapis.com/stripe-samples-flow-charts/checkout-one-time-client-server.png" alt="A flowchart of the Checkout flow" align="center">
+- 📝Bacs mandate collection
 
 ## How to run locally
 
-There are two integrations: `client-only` and `client-and-server`. The following are instructions on how to run the `client-and-server` integration. For `client-only` setup instructions see the READMEs in [client-only/client/html/README.md](./client-only/client/html/README.md) or [client-only/client/react-cra/README.md](./client-only/client/react-cra/README.md).
-
-This sample includes 5 server implementations in Java, JavaScript (Node), PHP, Python, and Ruby. All servers implement the same routes for the client to communicate with. There is a HTML + Vanilla JavaScript as well as a React client implemention available.
+This sample includes 7 server implementations in Java, JavaScript (Node), PHP, Python, Ruby, GO and dotnet. All servers implement the same routes for the client to communicate with.
 
 Follow the steps below to run locally.
 
@@ -76,23 +39,23 @@ If you haven't already installed the CLI, follow the [installation steps](https:
 In your terminal shell, run the Stripe CLI command to clone the sample:
 
 ```
-stripe samples create checkout-one-time-payments
+stripe samples create checkout-one-time-payments-bacs
 ```
 
-The CLI will walk you through picking your integration type, server and client languages, and configuring your .env config file with your Stripe API keys.
+The CLI will walk you through picking your server language, and configuring your .env config file with your Stripe API keys.
 
 **Installing and cloning manually**
 
 If you do not want to use the Stripe CLI, you can manually clone and configure the sample yourself:
 
 ```
-git clone https://github.com/stripe-samples/checkout-one-time-payments
+git clone https://github.com/stripe-samples/checkout-one-time-payments-bacs
 ```
 
 Copy the .env.example file into a file named .env in the folder of the server you want to use. For example:
 
 ```
-cp .env.example client-and-server/server/node/.env
+cp .env.example server/node/.env
 ```
 
 You will need a Stripe account in order to run the demo. Once you set up your account, go to the Stripe [developer dashboard](https://stripe.com/docs/development#api-keys) to find your API keys.
@@ -109,7 +72,6 @@ The other environment variables are configurable:
 `PRICE` is the [Price](https://stripe.com/docs/api/prices/create) for your product. A Price has a unit amount and currency.
 
 `DOMAIN` is the domain of your website, where Checkout will redirect back to after the customer completes the payment on the Checkout page.
-
 **2. Follow the server instructions on how to run:**
 
 Pick the server language you want and follow the instructions in the server folder README on how to run.
@@ -117,7 +79,7 @@ Pick the server language you want and follow the instructions in the server fold
 For example, if you want to run the Node server:
 
 ```
-cd client-and-server/server/node # there's a README in this folder with instructions
+cd server/node # there's a README in this folder with instructions
 npm install
 npm start
 ```
@@ -156,3 +118,5 @@ A: Plans and SKUs were old ways to model recurring and one-off prices. We create
 
 - [@adreyfus-stripe](https://twitter.com/adrind)
 - [@thorsten-stripe](https://twitter.com/thorwebdev)
+- [@matthewling-stripe](https://twitter.com/matthewling)
+- [@cjavilla-stripe](https://twitter.com/cjav_dev)
