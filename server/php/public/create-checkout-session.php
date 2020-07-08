@@ -23,6 +23,6 @@ $checkout_session = \Stripe\Checkout\Session::create([
 	  'price' => $config['price'],
 	  'quantity' => $quantity,
 	]]
-  ]);
+]);
   
 echo json_encode(['sessionId' => $checkout_session['id']]);
