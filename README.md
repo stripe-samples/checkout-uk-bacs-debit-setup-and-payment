@@ -8,6 +8,10 @@ Now you can also use Checkout to accept payments using Bacs Direct Debit.
 
 ## Demo
 
+<details open><summary>USD Cards Demo</summary>
+<img src="./demo-gifs/one_time.gif" alt="A gif of the Checkout payment page rendering" align="center">
+</details>
+
 - [Node](https://70p1h-3000.sse.codesandbox.io/)
 - [Fork on CodeSandbox](https://codesandbox.io/s/github/stripe-samples/checkout-one-time-payments/tree/codesandbox/) (includes both HTML and React client)
 The demo is running in test mode -- use `10-88-00` as a sort code, and `00012345` as the routing number.
