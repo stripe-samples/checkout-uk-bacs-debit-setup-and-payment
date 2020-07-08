@@ -8,7 +8,7 @@ Now you can also use Checkout to accept payments using Bacs Direct Debit.
 
 ## Demo
 
-<details open><summary>USD Cards Demo</summary>
+<details open><summary>One time payment with Checkout and Bacs</summary>
 <img src="./demo-gifs/one_time.gif" alt="A gif of the Checkout payment page rendering" align="center">
 </details>
 
