@@ -33,10 +33,11 @@ def get_example():
 def get_publishable_key():
     price = stripe.Price.retrieve(os.getenv('PRICE'))
     return jsonify({
-      'publicKey': os.getenv('STRIPE_PUBLISHABLE_KEY'),
-      'unitAmount': price['unit_amount'],
-      'currency': price['currency']
+        'publicKey': os.getenv('STRIPE_PUBLISHABLE_KEY'),
+        'unitAmount': price['unit_amount'],
+        'currency': price['currency']
     })
+
 
 # Fetch the Checkout Session to display the JSON result on the success page
 @app.route('/checkout-session', methods=['GET'])
@@ -63,7 +64,7 @@ def create_checkout_session():
         # ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID set as a query param
         checkout_session = stripe.checkout.Session.create(
             success_url=domain_url +
-            "/success.html?session_id={CHECKOUT_SESSION_ID}",
+            '/success.html?session_id={CHECKOUT_SESSION_ID}',
             cancel_url=domain_url + "/canceled.html",
             payment_method_types=["bacs_debit"],
             payment_intent_data={
@@ -72,8 +73,8 @@ def create_checkout_session():
             mode="payment",
             line_items=[
                 {
-                    "price": os.getenv('PRICE'),
-                    "quantity": data['quantity']
+                    'price': os.getenv('PRICE'),
+                    'quantity': data['quantity']
                 }
             ]
         )

@@ -53,17 +53,17 @@ namespace dotnet.Controllers
             var options = new SessionCreateOptions
             {
                 PaymentMethodTypes = new List<string>
-                    {
-                        "bacs_debit",
-                    },
+                {
+                    "bacs_debit",
+                },
                 LineItems = new List<SessionLineItemOptions>
+                {
+                    new SessionLineItemOptions
                     {
-                        new SessionLineItemOptions
-                        {
-                            Price = this.options.Value.Price,
-                            Quantity = 1,
-                        },
+                        Price = this.options.Value.Price,
+                        Quantity = 1,
                     },
+                },
                 Mode = "payment",
                 PaymentIntentData = new SessionPaymentIntentDataOptions
                 {

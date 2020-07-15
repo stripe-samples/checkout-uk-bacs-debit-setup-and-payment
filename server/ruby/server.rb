@@ -1,6 +1,6 @@
-require 'stripe'
-require 'sinatra'
 require 'dotenv'
+require 'sinatra'
+require 'stripe'
 
 # Copy the .env.example in the root into a .env file in this folder
 Dotenv.load
@@ -70,6 +70,7 @@ post '/webhook' do
   # For more about our webhook events check out https://stripe.com/docs/webhooks.
   webhook_secret = ENV['STRIPE_WEBHOOK_SECRET']
   payload = request.body.read
+
   if !webhook_secret.empty?
     # Retrieve the event by verifying the signature using the raw body and secret if webhook signing is configured.
     sig_header = request.env['HTTP_STRIPE_SIGNATURE']

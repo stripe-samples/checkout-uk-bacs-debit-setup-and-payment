@@ -55,6 +55,7 @@ public class Server {
       responseData.put("publicKey", dotenv.get("STRIPE_PUBLISHABLE_KEY"));
       responseData.put("unitAmount", price.getUnitAmount());
       responseData.put("currency", price.getCurrency());
+
       return gson.toJson(responseData);
     });
 
@@ -143,3 +144,4 @@ public class Server {
       }
     });
   }
+}

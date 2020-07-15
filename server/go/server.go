@@ -1,7 +1,7 @@
 package main
 
 import (
-  "bytes"
+	"bytes"
 	"encoding/json"
 	"io"
 	"io/ioutil"
@@ -11,8 +11,8 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/stripe/stripe-go/v71"
-	"github.com/stripe/stripe-go/v71/price"
 	"github.com/stripe/stripe-go/v71/checkout/session"
+	"github.com/stripe/stripe-go/v71/price"
 	"github.com/stripe/stripe-go/v71/webhook"
 )
 
@@ -39,7 +39,7 @@ func handleConfig(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
 		return
 	}
-	price, err := price.Get(os.Getenv("PRICE"), nil)
+	p, err := price.Get(os.Getenv("PRICE"), nil)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		log.Printf("price.Get: %v", err)
@@ -47,13 +47,13 @@ func handleConfig(w http.ResponseWriter, r *http.Request) {
 	}
 
 	writeJSON(w, struct {
-		PublicKey string `json:"publicKey"`
-		UnitAmount int64 `json:"unitAmount"`
-		Currency stripe.Currency `json:"currency"`
+		PublicKey  string          `json:"publicKey"`
+		UnitAmount int64           `json:"unitAmount"`
+		Currency   stripe.Currency `json:"currency"`
 	}{
-		PublicKey: os.Getenv("STRIPE_PUBLISHABLE_KEY"),
-		UnitAmount: price.UnitAmount,
-		Currency: price.Currency,
+		PublicKey:  os.Getenv("STRIPE_PUBLISHABLE_KEY"),
+		UnitAmount: p.UnitAmount,
+		Currency:   p.Currency,
 	})
 }
 
@@ -71,25 +71,25 @@ func handleCreateCheckoutSession(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-  params := &stripe.CheckoutSessionParams{
-    SuccessURL: stripe.String(os.Getenv("DOMAIN") + "/success.html?session_id={CHECKOUT_SESSION_ID}"),
-    CancelURL: stripe.String(os.Getenv("DOMAIN") + "/canceled.html"),
+	params := &stripe.CheckoutSessionParams{
+		SuccessURL: stripe.String(os.Getenv("DOMAIN") + "/success.html?session_id={CHECKOUT_SESSION_ID}"),
+		CancelURL:  stripe.String(os.Getenv("DOMAIN") + "/canceled.html"),
 
-    PaymentMethodTypes: stripe.StringSlice([]string{
-      "bacs_debit",
-    }),
-    PaymentIntentData: &stripe.CheckoutSessionPaymentIntentDataParams{
-      SetupFutureUsage: stripe.String(string(stripe.PaymentIntentSetupFutureUsageOffSession)),
+		PaymentMethodTypes: stripe.StringSlice([]string{
+			"bacs_debit",
+		}),
+		PaymentIntentData: &stripe.CheckoutSessionPaymentIntentDataParams{
+			SetupFutureUsage: stripe.String(string(stripe.PaymentIntentSetupFutureUsageOffSession)),
 		},
-    LineItems: []*stripe.CheckoutSessionLineItemParams{
-      &stripe.CheckoutSessionLineItemParams{
-        Price: stripe.String(os.Getenv("PRICE")),
-        Quantity: req.Quantity,
-      },
-    },
-    Mode: stripe.String(string(stripe.CheckoutSessionModePayment)),
-  }
-  s, _ := session.New(params)
+		LineItems: []*stripe.CheckoutSessionLineItemParams{
+			&stripe.CheckoutSessionLineItemParams{
+				Price:    stripe.String(os.Getenv("PRICE")),
+				Quantity: req.Quantity,
+			},
+		},
+		Mode: stripe.String(string(stripe.CheckoutSessionModePayment)),
+	}
+	s, _ := session.New(params)
 
 	writeJSON(w, struct {
 		Session string `json:"sessionId"`
@@ -101,17 +101,17 @@ func handleCreateCheckoutSession(w http.ResponseWriter, r *http.Request) {
 func handleRetrieveCheckoutSession(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
 		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
-    return
-  }
-  keys, ok := r.URL.Query()["sessionId"]
+		return
+	}
+	keys, ok := r.URL.Query()["sessionId"]
 
-  if !ok || len(keys[0]) < 1 {
-    log.Println("Url Param 'sessionId' is missing")
-    return
-  }
+	if !ok || len(keys[0]) < 1 {
+		log.Println("Url Param 'sessionId' is missing")
+		return
+	}
 
-  sessionId := keys[0]
-	
+	sessionId := keys[0]
+
 	session, err := session.Get(sessionId, nil)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -119,21 +119,21 @@ func handleRetrieveCheckoutSession(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-  writeJSON(w, session)
+	writeJSON(w, session)
 }
 
 func writeJSON(w http.ResponseWriter, v interface{}) {
-  var buf bytes.Buffer
-  if err := json.NewEncoder(&buf).Encode(v); err != nil {
-    http.Error(w, err.Error(), http.StatusInternalServerError)
-    log.Printf("json.NewEncoder.Encode: %v", err)
-    return
-  }
-  w.Header().Set("Content-Type", "application/json")
-  if _, err := io.Copy(w, &buf); err != nil {
-    log.Printf("io.Copy: %v", err)
-    return
-  }
+	var buf bytes.Buffer
+	if err := json.NewEncoder(&buf).Encode(v); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		log.Printf("json.NewEncoder.Encode: %v", err)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	if _, err := io.Copy(w, &buf); err != nil {
+		log.Printf("io.Copy: %v", err)
+		return
+	}
 }
 
 func handleWebhook(w http.ResponseWriter, r *http.Request) {
@@ -157,16 +157,16 @@ func handleWebhook(w http.ResponseWriter, r *http.Request) {
 
 	if event.Type == "checkout.session.completed" {
 		log.Printf("Checkout session completed")
-			return
+		return
 	}
 
 	if event.Type == "checkout.session.async_payment_succeeded" {
 		log.Printf("Checkout session async payment succeeded", err)
-			return
+		return
 	}
 
 	if event.Type == "checkout.session.async_payment_failed" {
 		log.Printf("Checkout session async payment failed", err)
-			return
+		return
 	}
 }

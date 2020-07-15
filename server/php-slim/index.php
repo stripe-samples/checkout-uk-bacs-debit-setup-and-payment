@@ -24,6 +24,7 @@ $container['logger'] = function ($c) {
 
 $app->add(function ($request, $response, $next) {
     Stripe::setApiKey(getenv('STRIPE_SECRET_KEY'));
+
     return $next($request, $response);
 });
   
@@ -34,6 +35,7 @@ $app->get('/', function (Request $request, Response $response, array $args) {
 $app->get('/config', function (Request $request, Response $response, array $args) {
   $pub_key = getenv('STRIPE_PUBLISHABLE_KEY');
   $price = \Stripe\Price::retrieve(getenv('PRICE'));
+
   return $response->withJson([ 
     'publicKey' => $pub_key, 
     'unitAmount' => $price['unit_amount'], 

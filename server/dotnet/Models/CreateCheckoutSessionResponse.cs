@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Stripe;
 
 public class CreateCheckoutSessionResponse
 {
