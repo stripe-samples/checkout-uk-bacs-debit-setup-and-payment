@@ -13,8 +13,7 @@ Now you can also use Checkout to accept payments using Bacs Direct Debit.
 </details>
 
 - [Node](https://b17if.sse.codesandbox.io/)
-- [Fork on CodeSandbox](https://codesandbox.io/s/checkout-uk-bacs-debit-setup-and-payment-b17if) (includes both HTML and React client)
-The demo is running in test mode -- use `10-88-00` as a sort code, and `00012345` as the routing number.
+- [Fork on CodeSandbox](https://codesandbox.io/s/checkout-uk-bacs-debit-setup-and-payment-b17if) The demo is running in test mode -- use `10-88-00` as a sort code, and `00012345` as the routing number.
 
 Read more about testing Bacs Direct Debit on Stripe at https://stripe.com/docs/payments/bacs-debit/accept-a-payment#testing
 
