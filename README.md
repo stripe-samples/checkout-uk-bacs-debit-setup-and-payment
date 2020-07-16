@@ -76,6 +76,7 @@ The other environment variables are configurable:
 `PRICE` is the [Price](https://stripe.com/docs/api/prices/create) for your product. A Price has a unit amount and currency.
 
 `DOMAIN` is the domain of your website, where Checkout will redirect back to after the customer completes the payment on the Checkout page.
+
 **2. Follow the server instructions on how to run:**
 
 Pick the server language you want and follow the instructions in the server folder README on how to run.
