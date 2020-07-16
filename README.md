@@ -9,7 +9,7 @@ Now you can also use Checkout to accept payments using Bacs Direct Debit.
 ## Demo
 
 <details open><summary>Bacs Direct Debit with payment</summary>
-<img src="./demo-gifs/one_time.gif" alt="A gif of the Checkout payment page rendering" align="center">
+<img src="./demo-gifs/debit_and_payment.gif" alt="A gif of the Checkout payment page rendering" align="center">
 </details>
 
 - [Node](https://b17if.sse.codesandbox.io/)
