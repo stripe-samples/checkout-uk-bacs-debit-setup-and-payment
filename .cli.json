@@ -1,16 +1,11 @@
 {
-  "name": "checkout-one-time-payments",
+  "name": "checkout-uk-bacs-debit-setup-and-payment",
   "configureDotEnv": true,
   "integrations": [
     {
-      "name": "client-and-server",
-      "clients": ["html", "react-cra"],
-      "servers": ["java", "node", "php-slim", "php", "python", "ruby"]
-    },
-    {
-      "name": "client-only",
-      "clients": ["html", "react-cra"],
-      "servers": []
+      "name": "server",
+      "clients": ["html"],
+      "servers": ["dotnet", "go", "java", "node", "php-slim", "php", "python", "ruby"]
     }
   ]
 }
