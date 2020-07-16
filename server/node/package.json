@@ -1,7 +1,7 @@
 {
-  "name": "checkout-one-time-payments",
+  "name": "checkout-uk-bacs-debit-setup-and-payment",
   "version": "1.0.0",
-  "description": "Accept payments with Stripe Checkout",
+  "description": "Setup a Bacs Direct Debit and accept a payment",
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
