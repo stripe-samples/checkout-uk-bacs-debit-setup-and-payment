@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const { resolve } = require('path');
 
+console.log("Does this sync?");
+
 // Copy the .env.example in the root into a .env file in this folder
 require('dotenv').config({ path: './.env' });
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
