@@ -3,7 +3,7 @@
   "configureDotEnv": true,
   "integrations": [
     {
-      "name": "server",
+      "name": "main",
       "clients": ["html"],
       "servers": ["dotnet", "go", "java", "node", "php-slim", "php", "python", "ruby"]
     }
