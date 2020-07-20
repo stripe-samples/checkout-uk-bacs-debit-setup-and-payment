@@ -12,8 +12,8 @@ Now you can also use Checkout to accept payments using Bacs Direct Debit.
 <img src="./demo-gifs/debit_and_payment.gif" alt="A gif of the Checkout payment page rendering" align="center">
 </details>
 
-- [Node](https://99h3f.sse.codesandbox.io/)
-- [Fork on CodeSandbox](https://codesandbox.io/s/checkout-uk-bacs-debit-setup-and-payment-99h3f) 
+- [Node](https://mpgrt.sse.codesandbox.io/)
+- [Fork on CodeSandbox](https://codesandbox.io/s/github/stripe-samples/checkout-uk-bacs-debit-setup-and-payment/tree/codesandbox) 
 
 The demo is running in test mode -- use `10-88-00` as a sort code, and `00012345` as the routing number.
 
