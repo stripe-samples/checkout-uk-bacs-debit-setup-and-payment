@@ -61,7 +61,7 @@ namespace dotnet.Controllers
                     new SessionLineItemOptions
                     {
                         Price = this.options.Value.Price,
-                        Quantity = 1,
+                        Quantity = req.Quantity,
                     },
                 },
                 Mode = "payment",
