@@ -13,7 +13,7 @@ Now you can also use Checkout to accept payments using Bacs Direct Debit.
 </details>
 
 - [Node](https://mpgrt.sse.codesandbox.io/)
-- [Fork on CodeSandbox](https://codesandbox.io/s/github/stripe-samples/checkout-uk-bacs-debit-setup-and-payment/tree/codesandbox) 
+- [Fork on CodeSandbox](https://codesandbox.io/s/github/stripe-samples/checkout-uk-bacs-debit-setup-and-payment/tree/codesandbox)
 
 The demo is running in test mode -- use `10-88-00` as a sort code, and `00012345` as the routing number.
 
@@ -117,7 +117,7 @@ A: Plans and SKUs were old ways to model recurring and one-off prices. We create
 If you found a bug or want to suggest a new [feature/use case/sample], please [file an issue](../../issues).
 
 If you have questions, comments, or need help with code, we're here to help:
-- on [IRC via freenode](https://webchat.freenode.net/?channel=#stripe)
+- on [Discord](https://stripe.com/go/developer-chat)
 - on Twitter at [@StripeDev](https://twitter.com/StripeDev)
 - on Stack Overflow at the [stripe-payments](https://stackoverflow.com/tags/stripe-payments/info) tag
 - by [email](mailto:support+github@stripe.com)
